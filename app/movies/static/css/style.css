@@ -19,6 +19,11 @@
     border-top-right-radius: 8px;
 }
 
+.with-icons{
+	align-items: center;
+    display: flex;
+}
+
 @media only screen and (max-width: 600px) {
 	.media {
 	  display: block;

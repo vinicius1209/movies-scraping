@@ -15,22 +15,25 @@
                 <div class="column">
                     <div class="field is-grouped">
                         <p class="control is-expanded">
-                          <input class="input" type="text" placeholder="Find a movie">
+                          <input class="input" type="text" placeholder="Find a movie" id="searchInput" value="{{ request.args.get('search', '') }}">
                         </p>
                         <p class="control">
-                          <a class="button is-info">
+                          <a class="button is-info" id="searchBtn">
                             Search
                           </a>
                         </p>
                       </div>
                 </div>
             </div>
+            <!--Loader -->
+            <progress class="progress is-small is-dark" max="100" id="loader" style="display: none;">45%</progress>
+            <!--END -->
             <div class="columns is-multiline">
                 {% if upcoming_list %}
                     {% for movie in upcoming_list %}
                     <!--Movie Card -->
                     <div class="column is-12-mobile is-6-tablet is-3-desktop">
-                        <div class="card">
+                        <div class="card" onclick="openModalDetail('{{movie.id}}')">
                             <div class="card-image">
                                 <figure class="image">
                                     <img src="{{ url_for('movie_bp.static', filename='img/' + movie.poster) }}" alt="Poster image" class="is-slightly-rounded">
@@ -41,7 +44,7 @@
                                     <p class="title is-6 is-spaced is-capitalized">
                                         {{movie.name}}
                                     </p>
-                                    <p class="subtitle is-6">
+                                    <p class="subtitle is-6 with-icons">
                                         <span class="icon has-text-info">
                                             <i class="far fa-clock"></i>
                                         </span>
@@ -57,28 +60,77 @@
                             </div>
                         </div>
                     </div>
-                    <!--end movie card-->
+                    <!-- Modal movie details -->
+                    <div class="modal" id="modal-details-{{movie.id}}">
+                        <div class="modal-background"></div>
+                        <div class="modal-content">
+                            <div class="box">
+                                <div class="columns">
+                                    <div class="column is-4">
+                                        <figure class="image">
+                                            <img src="{{ url_for('movie_bp.static', filename='img/' + movie.poster) }}" alt="Poster image" class="is-slightly-rounded">
+                                        </figure>
+                                    </div>
+                                    <div class="column">
+                                        <h3 class="title">Overview</h3>
+                                        <p class="subtitle is-6">{{movie.overview}}</p>
+                                        <p class="with-icons">
+                                            <span class="icon has-text-danger">
+                                                <i class="far fa-heart"></i>
+                                            </span>
+                                            {{movie.popularity}}
+                                        </p>
+                                        <p class="with-icons">
+                                            <span class="icon has-text-info">
+                                                <i class="far fa-clock"></i>
+                                            </span>
+                                            {{movie.release_date}}
+                                        </p>
+                                        <div class="tags">
+                                            {% for genre in movie.genre %}
+                                            <span class="tag">{{ genre }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="modal-close is-large" aria-label="close" onclick="closeModalDetail('{{movie.id}}')"></button>
+                    </div>
+                    <!-- end modal -->
                     {% endfor %}
                 {% endif %}
             </div>
 
             <!-- Pagination -->
-            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                <a class="pagination-previous">Previous</a>
-                <a class="pagination-next">Next page</a>
-                <ul class="pagination-list">
-                    <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-                    <li><span class="pagination-ellipsis">&hellip;</span></li>
-                    <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
-                    <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
-                    <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
-                    <li><span class="pagination-ellipsis">&hellip;</span></li>
-                    <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
-                </ul>
-            </nav>
+            {% include "pagination.html" %}
             <!--End pagination -->
-
         </div>
     </div>
 </section>
+
+<script type="text/javascript">
+
+    $('#searchBtn').click(function(){
+        let query = $('#searchInput').val()
+
+        if (query != ''){
+            query = query.split(' ').join('+');
+            $('#loader').css('display', 'block');
+            window.location.href = '/movies/upcoming/1?search=' + query;
+        }else{
+            $('#loader').css('display', 'block');
+            window.location.href = '/movies/upcoming/1';
+        }
+    });
+
+    function openModalDetail(id){
+        $('#modal-details-' + id).addClass('is-active');
+    }
+
+    function closeModalDetail(id){
+        $('#modal-details-' + id).removeClass('is-active');
+    }
+
+</script>
 {% endblock %}

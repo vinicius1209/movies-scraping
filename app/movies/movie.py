@@ -12,6 +12,9 @@ class TheMovieDB():
         self.genre_dict = {}
         self.total_pages = None
         self.total_results = None
+        self.search_list = []
+        self.search_total_pages = None
+        self.search_total_results = None
         self.upload_folder = join(dirname(realpath(__file__)), 'static/img/')
 
     def get_upcoming_movies(self, page):
@@ -33,13 +36,18 @@ class TheMovieDB():
                     for g in movie["genre_ids"]:
                         g_list.append(self.genre_dict[g])
 
+                    poster_path = ("null.jpg" if movie["poster_path"] is None else str(movie["poster_path"])[1:])
+
                     self.movie_list.append(Movie(
+                        movie["id"],
                         movie["original_title"],
-                        str(movie["poster_path"])[1:],
+                        poster_path,
                         g_list,
-                        movie["release_date"]
+                        movie["release_date"],
+                        movie["overview"],
+                        movie["popularity"]
                     ))
-                    self.create_poster_img(str(movie["poster_path"])[1:])
+                    self.create_poster_img(poster_path)
 
                 return self.movie_list
             
@@ -81,13 +89,54 @@ class TheMovieDB():
         except Timeout as t:
             return "Timeout Error: {}".format(t)
 
+    def get_upcoming_movies_by_search(self, page, search_query):
+        try:
+            r = requests.get('https://api.themoviedb.org/3/search/movie?api_key={}&page={}&query={}'.format(self.api_key, page, search_query))
+            if r.status_code == 200:
+                search_json = r.json()
+                self.search_list = []
+                self.search_total_pages = search_json["total_pages"]
+                self.search_total_results = search_json["total_results"]
+                self.genre_dict = self.get_genre_dict()
+
+                for movie in search_json["results"]:
+                    
+                    g_list = []
+
+                    for g in movie["genre_ids"]:
+                        g_list.append(self.genre_dict[g])
+
+                    poster_path = ("null.jpg" if movie["poster_path"] is None else str(movie["poster_path"])[1:])
+
+                    self.search_list.append(Movie(
+                        movie["id"],
+                        movie["original_title"],
+                        poster_path,
+                        g_list,
+                        movie["release_date"],
+                        movie["overview"],
+                        movie["popularity"]
+                    ))
+                    self.create_poster_img(poster_path)
+
+                print(self.search_list)
+
+                return self.search_list
+
+        except ConnectionError as c:
+            return "Connection Error: {}".format(c)
+        except Timeout as t:
+            return "Timeout Error: {}".format(t)
 
 
 class Movie(object):
     
-    def __init__(self, name, poster, genre, release_date):
+    def __init__(self, id, name, poster, genre, release_date, overview, popularity):
+        self.id = id
         self.name = name
         self.poster = poster
         self.genre = genre
         self.release_date = release_date
+        self.overview = overview
+        self.popularity = popularity
 

@@ -1,0 +1,17 @@
+<nav class="pagination is-centered is-small" role="navigation" aria-label="pagination">
+    {% if page > 1%}
+    <a class="pagination-previous" href="/movies/upcoming/{{page - 1 }}">Previous</a>
+    {% endif %}
+    {% if page < total_pages %}
+    <a class="pagination-next" href="/movies/upcoming/{{page + 1}}">Next page</a>
+    {% endif %}
+    <ul class="pagination-list">
+        {% for p in range(total_pages) %}
+            {% if p + 1 == page %}
+            <li><a class="pagination-link is-current" href="/movies/upcoming/{{p + 1 }}" aria-label="Page {{ p + 1}}" aria-current="page">{{ p + 1}}</a></li>
+            {% else %}
+            <li><a class="pagination-link" href="/movies/upcoming/{{p + 1}}" aria-label="Goto page 1">{{ p + 1}}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
