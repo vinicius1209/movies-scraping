@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero is-fullheight-with-navbar">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+                    <h1 class="title is-2">
+                        Upcoming Movies
+                    </h1>
+                    <h2 class="subtitle is-4">
+                        See the list of upcoming movies by MovieDB
+                    </h2>
+                </div>
+                <div class="column">
+                    <div class="field is-grouped">
+                        <p class="control is-expanded">
+                          <input class="input" type="text" placeholder="Find a movie">
+                        </p>
+                        <p class="control">
+                          <a class="button is-info">
+                            Search
+                          </a>
+                        </p>
+                      </div>
+                </div>
+            </div>
+            <div class="columns is-multiline">
+                {% if upcoming_list %}
+                    {% for movie in upcoming_list %}
+                    <!--Movie Card -->
+                    <div class="column is-12-mobile is-6-tablet is-3-desktop">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image">
+                                    <img src="{{ url_for('movie_bp.static', filename='img/' + movie.poster) }}" alt="Poster image" class="is-slightly-rounded">
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="content">
+                                    <p class="title is-6 is-spaced is-capitalized">
+                                        {{movie.name}}
+                                    </p>
+                                    <p class="subtitle is-6">
+                                        <span class="icon has-text-info">
+                                            <i class="far fa-clock"></i>
+                                        </span>
+                                        {{movie.release_date}}
+                                    </p>
+                                    <!--Genre list-->
+                                    <div class="tags">
+                                        {% for genre in movie.genre %}
+                                        <span class="tag">{{ genre }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end movie card-->
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Pagination -->
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                <a class="pagination-previous">Previous</a>
+                <a class="pagination-next">Next page</a>
+                <ul class="pagination-list">
+                    <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
+                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                    <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
+                    <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
+                    <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
+                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                    <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
+                </ul>
+            </nav>
+            <!--End pagination -->
+
+        </div>
+    </div>
+</section>
+{% endblock %}
