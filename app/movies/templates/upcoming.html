@@ -122,6 +122,12 @@
         }
     });
 
+    $('.modal-background').click(function(){
+        $('.is-active').each(function(idx, item){
+            $(item).removeClass('is-active');
+        });
+    })
+
     function openModalDetail(id){
         $('#modal-details-' + id).addClass('is-active');
     }
