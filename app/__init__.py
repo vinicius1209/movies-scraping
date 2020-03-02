@@ -10,5 +10,6 @@ from .movies import movie_bp
 
 app.register_blueprint(movie_bp)
 
+# Execute
 def execute_app():
     return app

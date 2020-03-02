@@ -17,7 +17,7 @@ class Cache(object):
         self.hash = {}
         self.item_list = []
 
-    # Insert the movies item
+    # Insert the movies list item
     def insert(self, item):
 
         if item.key in self.hash:

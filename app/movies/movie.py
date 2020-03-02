@@ -36,6 +36,7 @@ class TheMovieDB():
                     for g in movie["genre_ids"]:
                         g_list.append(self.genre_dict[g])
 
+                    # Check if img path is null
                     poster_path = ("null.jpg" if movie["poster_path"] is None else str(movie["poster_path"])[1:])
 
                     self.movie_list.append(Movie(
@@ -106,6 +107,7 @@ class TheMovieDB():
                     for g in movie["genre_ids"]:
                         g_list.append(self.genre_dict[g])
 
+                    # Check if img path is null
                     poster_path = ("null.jpg" if movie["poster_path"] is None else str(movie["poster_path"])[1:])
 
                     self.search_list.append(Movie(
@@ -118,8 +120,6 @@ class TheMovieDB():
                         movie["popularity"]
                     ))
                     self.create_poster_img(poster_path)
-
-                print(self.search_list)
 
                 return self.search_list
 

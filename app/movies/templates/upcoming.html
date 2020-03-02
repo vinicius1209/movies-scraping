@@ -101,7 +101,6 @@
                     {% endfor %}
                 {% endif %}
             </div>
-
             <!-- Pagination -->
             {% include "pagination.html" %}
             <!--End pagination -->
@@ -112,15 +111,14 @@
 <script type="text/javascript">
 
     $('#searchBtn').click(function(){
-        let query = $('#searchInput').val()
+        let query = $('#searchInput').val();
+        doSearch(query);
+    });
 
-        if (query != ''){
-            query = query.split(' ').join('+');
-            $('#loader').css('display', 'block');
-            window.location.href = '/movies/upcoming/1?search=' + query;
-        }else{
-            $('#loader').css('display', 'block');
-            window.location.href = '/movies/upcoming/1';
+    $('#searchInput').keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            doSearch($(this).val());
         }
     });
 
@@ -130,6 +128,16 @@
 
     function closeModalDetail(id){
         $('#modal-details-' + id).removeClass('is-active');
+    }
+
+    function doSearch(query){
+        $('#loader').css('display', 'block');
+        if (query != ''){
+            query = query.split(' ').join('+');
+            window.location.href = '/movies/upcoming/1?search=' + query;
+        }else{
+            window.location.href = '/movies/upcoming/1';
+        }
     }
 
 </script>
