@@ -15,12 +15,12 @@ Also, Flask works like a MVC application with the routes and static templates wi
 ### Technologies, Extensions and Libraries
 
 - [x] Python
-- [x] Flask
-- [x] Requests
+- [x] Flask (Microframework to web development)
+- [x] Requests (Simple library to make HTTP requests)
 - [x] Javascript
 - [X] Jquery
-- [X] Bulma.io
-- [X] Heroku
+- [X] Bulma.io (Modern, simple and different CSS Framework)
+- [X] Heroku (To deploy application)
 
 ### Authors:
   - [vinicius1209](http://www.viniciusmachado.com/)
