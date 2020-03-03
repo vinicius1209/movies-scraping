@@ -11,6 +11,20 @@ Also, Flask works like a MVC application with the routes and static templates wi
 
 - Some movies does not have a image path, so I had to create a "default" image and show it instead of showing none
 - I created a cache mechanism to cache each requested page for 5 minutes. Each page works like a "CacheItem" and it is insert into the "Cache" structure.
+
+### Installation
+
+OS X & Linux:
+
+```sh
+python get-pip.py
+cd <project folder>
+source venv/bin/activate
+pip install -r requirements.txt
+export FLASK_APP=main.py
+flask run
+```
+
  
 ### Technologies, Extensions and Libraries
 
