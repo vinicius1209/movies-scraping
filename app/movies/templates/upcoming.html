@@ -22,7 +22,12 @@
                             Search
                           </a>
                         </p>
-                      </div>
+                    </div>
+                    {% if 'search' in request.args %}
+                    <p class="subtitle is-6">
+                        Searching for "{{ request.args.get('search', '') }}"
+                    </p>
+                    {% endif %}
                 </div>
             </div>
             <!--Loader -->
