@@ -8,6 +8,9 @@ Using Python on the backend of the application was easy to make requisitions to 
 Also, Flask works like a MVC application with the routes and static templates without a lot of configuration like others stacks.
 
 ![](bpm.png)
+
+- Some movies does not have a image path, so I had to create a "default" image and show it instead of showing none
+- I created a cache mechanism to cache each requested page for 5 minutes. Each page works like a "CacheItem" and it is insert into the "Cache" structure.
  
 ### Technologies, Extensions and Libraries
 
