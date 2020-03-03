@@ -20,7 +20,7 @@ OS X & Linux:
 python get-pip.py
 cd <project folder>
 source venv/bin/activate
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 export FLASK_APP=main.py
 flask run
 ```
